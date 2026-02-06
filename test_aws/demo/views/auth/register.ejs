@@ -1,0 +1,74 @@
+<%- include('../layouts/main', { body: `
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="text-center mb-4">
+          <h1 class="display-4 fw-bold" style="color: #2d5016;">
+            <i class="bi bi-feather me-2"></i>Wildlife Gallery
+          </h1>
+          <p class="text-muted">Join our community of wildlife enthusiasts</p>
+        </div>
+
+        <div class="card p-4">
+          <div class="card-body">
+            <h3 class="text-center mb-4">Create Account</h3>
+
+            ${typeof error !== 'undefined' && error.length > 0 ? '<div class="alert alert-danger">' + error + '</div>' : ''}
+            ${typeof success !== 'undefined' && success.length > 0 ? '<div class="alert alert-success">' + success + '</div>' : ''}
+
+            <form action="/auth/register" method="POST">
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input type="text" class="form-control" id="username" name="username" required placeholder="Choose a username">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" id="email" name="email" required placeholder="your@email.com">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                  <input type="password" class="form-control" id="password" name="password" required placeholder="Minimum 6 characters">
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                  <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required placeholder="Repeat your password">
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 mb-3">
+                <i class="bi bi-person-plus me-2"></i>Create Account
+              </button>
+            </form>
+
+            <hr>
+
+            <p class="text-center mb-0">
+              Already have an account?
+              <a href="/auth/login" style="color: #2d5016; font-weight: bold;">Login here</a>
+            </p>
+          </div>
+        </div>
+
+        <p class="text-center text-muted mt-3">
+          <small><i class="bi bi-shield-check me-1"></i>We protect your privacy</small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+` }) %>
