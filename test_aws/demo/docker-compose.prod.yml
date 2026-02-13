@@ -72,9 +72,11 @@ services:
 
 volumes:
   postgres_data:
-    driver: local
+    external: true
+    name: wildlife-gallery_postgres_data
   redis_data:
-    driver: local
+    external: true
+    name: wildlife-gallery_redis_data
 
 networks:
   wildlife-network:
