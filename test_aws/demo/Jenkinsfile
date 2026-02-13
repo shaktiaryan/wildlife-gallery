@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER')]) {
-                    bat 'ssh -o StrictHostKeyChecking=no -i %SSH_KEY_FILE% %EC2_USER%@%EC2_HOST% "cd /opt/wildlife-gallery && git pull origin master && docker-compose -f docker-compose.prod.yml up -d --build && echo Waiting for services to start... && sleep 10 && curl -f http://localhost/health || echo Health check failed"'
+                    bat 'ssh -o StrictHostKeyChecking=no -p 2222 -i %SSH_KEY_FILE% %EC2_USER%@%EC2_HOST% "cd /opt/wildlife-gallery && git pull origin master && docker-compose -f docker-compose.prod.yml up -d --build && echo Waiting for services to start... && sleep 10 && curl -f http://localhost/health || echo Health check failed"'
                 }
             }
         }
