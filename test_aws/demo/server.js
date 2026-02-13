@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
+    version: 'v1.1.0-cicd',
     timestamp: new Date().toISOString(),
     uptime: process.uptime()
   });
