@@ -1,54 +1,89 @@
 <%- include('../layouts/main', { body: `
-<div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5" style="background: linear-gradient(135deg, #6C3CE1 0%, #00B4D8 25%, #FF6B6B 50%, #FF9F43 75%, #FECA57 100%); background-size: 400% 400%; animation: gradientShift 12s ease infinite;">
+  <style>
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .login-card {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.95) !important;
+      border: none !important;
+      border-radius: 24px !important;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+    }
+    .login-card:hover {
+      box-shadow: 0 25px 70px rgba(0,0,0,0.2) !important;
+    }
+    .login-btn {
+      background: linear-gradient(135deg, #6C3CE1, #00B4D8) !important;
+      border: none !important;
+      border-radius: 25px !important;
+      padding: 12px 25px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease !important;
+    }
+    .login-btn:hover {
+      background: linear-gradient(135deg, #00B4D8, #6C3CE1) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(108, 60, 225, 0.4);
+    }
+    .login-input:focus {
+      border-color: #6C3CE1 !important;
+      box-shadow: 0 0 0 3px rgba(108, 60, 225, 0.15) !important;
+    }
+  </style>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-5">
         <div class="text-center mb-4">
-          <h1 class="display-4 fw-bold" style="color: #2d5016;">
+          <h1 class="display-4 fw-bold" style="color: white; text-shadow: 0 2px 15px rgba(0,0,0,0.2);">
             <i class="bi bi-feather me-2"></i>Wildlife Gallery
           </h1>
-          <p class="text-muted">Discover the amazing world of animals and birds</p>
+          <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem;">Discover the amazing world of animals and birds</p>
         </div>
 
-        <div class="card p-4">
+        <div class="card login-card p-4">
           <div class="card-body">
-            <h3 class="text-center mb-4">Welcome Back</h3>
+            <h3 class="text-center mb-4" style="color: #6C3CE1; font-weight: 700;">Welcome Back</h3>
 
-            ${typeof error !== 'undefined' && error.length > 0 ? '<div class="alert alert-danger">' + error + '</div>' : ''}
-            ${typeof success !== 'undefined' && success.length > 0 ? '<div class="alert alert-success">' + success + '</div>' : ''}
+            ${typeof error !== 'undefined' && error.length > 0 ? '<div class="alert alert-danger" style="border-radius: 12px;">' + error + '</div>' : ''}
+            ${typeof success !== 'undefined' && success.length > 0 ? '<div class="alert alert-success" style="border-radius: 12px;">' + success + '</div>' : ''}
 
             <form action="/auth/login" method="POST">
               <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
+                <label for="email" class="form-label" style="font-weight: 600; color: #555;">Email Address</label>
                 <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                  <input type="email" class="form-control" id="email" name="email" required placeholder="your@email.com">
+                  <span class="input-group-text" style="background: linear-gradient(135deg, #6C3CE1, #00B4D8); color: white; border: none;"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control login-input" id="email" name="email" required placeholder="your@email.com" style="border-radius: 0 12px 12px 0;">
                 </div>
               </div>
 
               <div class="mb-4">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label" style="font-weight: 600; color: #555;">Password</label>
                 <div class="input-group">
-                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                  <input type="password" class="form-control" id="password" name="password" required placeholder="Enter your password">
+                  <span class="input-group-text" style="background: linear-gradient(135deg, #FF6B6B, #F368E0); color: white; border: none;"><i class="bi bi-lock"></i></span>
+                  <input type="password" class="form-control login-input" id="password" name="password" required placeholder="Enter your password" style="border-radius: 0 12px 12px 0;">
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 mb-3">
+              <button type="submit" class="btn login-btn w-100 mb-3 text-white">
                 <i class="bi bi-box-arrow-in-right me-2"></i>Login
               </button>
             </form>
 
-            <hr>
+            <hr style="border-color: #eee;">
 
             <p class="text-center mb-0">
               Don't have an account?
-              <a href="/auth/register" style="color: #2d5016; font-weight: bold;">Register here</a>
+              <a href="/auth/register" style="color: #6C3CE1; font-weight: bold; text-decoration: none;">Register here</a>
             </p>
           </div>
         </div>
 
-        <p class="text-center text-muted mt-3">
+        <p class="text-center mt-3" style="color: rgba(255,255,255,0.85);">
           <small><i class="bi bi-shield-check me-1"></i>Your data is safe with us</small>
         </p>
       </div>

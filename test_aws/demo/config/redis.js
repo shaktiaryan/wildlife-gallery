@@ -1,8 +1,17 @@
 const { createClient } = require('redis');
 
-// Redis client
+// Redis client with limited retry to avoid flooding logs
 const redisClient = createClient({
-  url: process.env.REDIS_URL || 'redis://localhost:6379'
+  url: process.env.REDIS_URL || 'redis://localhost:6379',
+  socket: {
+    reconnectStrategy: (retries) => {
+      if (retries > 3) {
+        console.log('Redis unavailable - caching disabled');
+        return false; // stop retrying
+      }
+      return Math.min(retries * 500, 3000);
+    }
+  }
 });
 
 // TTL for cached images (30 minutes)
