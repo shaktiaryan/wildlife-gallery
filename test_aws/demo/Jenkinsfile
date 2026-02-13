@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    environment {
+        EC2_HOST = credentials('ec2-host')
+        EC2_USER = 'ec2-user'
+        SSH_KEY  = 'ec2-ssh-key'
+    }
+
+    triggers {
+        githubPush()
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building Docker image...'
+                sh 'docker build -t wildlife-gallery .'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'No tests configured yet. Add tests here when ready.'
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sshagent(credentials: [SSH_KEY]) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+                            cd /opt/wildlife-gallery &&
+                            git pull origin master &&
+                            docker-compose -f docker-compose.prod.yml up -d --build &&
+                            echo "Waiting for services to start..." &&
+                            sleep 10 &&
+                            curl -f http://localhost/health || echo "Health check failed"
+                        '
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment successful! App is live at http://${EC2_HOST}"
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs above for details.'
+        }
+    }
+}

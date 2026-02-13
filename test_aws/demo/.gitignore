@@ -1,4 +1,12 @@
 node_modules/
 .env
+.env.test
+.env.production
+aws/.env.production
 *.db
 .DS_Store
+cookies.txt
+docker-cookies.txt
+prod_cookies.txt
+nul
+.claude/

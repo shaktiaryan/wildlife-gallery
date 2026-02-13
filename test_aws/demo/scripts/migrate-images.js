@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const https = require('https');
 const { db } = require('../config/database');
@@ -55,12 +56,12 @@ async function migrateImages() {
   }
 
   // Get all creatures with external image URLs
-  const creatures = await db.all(`
+  const creatures = db.prepare(`
     SELECT id, name, image_url
     FROM creatures
     WHERE image_url IS NOT NULL
       AND image_url NOT LIKE '/api/images/%'
-  `);
+  `).all();
 
   console.log(`Found ${creatures.length} creatures with external images to migrate.\n`);
 
@@ -74,13 +75,13 @@ async function migrateImages() {
       // Download the image
       const { buffer, contentType } = await downloadImage(creature.image_url);
 
-      // Save to PostgreSQL images table
+      // Save to PostgreSQL
       await saveImage(creature.id, buffer, contentType, creature.image_url);
 
-      // Update creatures table to use local API endpoint
-      await db.run(
-        `UPDATE creatures SET image_url = $1 WHERE id = $2`,
-        [`/api/images/${creature.id}`, creature.id]
+      // Update SQLite to use local API endpoint
+      db.prepare(`UPDATE creatures SET image_url = ? WHERE id = ?`).run(
+        `/api/images/${creature.id}`,
+        creature.id
       );
 
       console.log(`OK (${(buffer.length / 1024).toFixed(1)} KB)`);
