@@ -21,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Docker image...'
-                bat 'docker build -t wildlife-gallery .'
+                bat 'docker build -t wildlife-gallery ./test_aws/demo'
             }
         }
 
